@@ -13,9 +13,13 @@
             <Button Content="walk" Click="Button_Click" />
             <Button Content="idel" Click="Button_Click_1" />
             <Button Content="idel" Click="Button_Click_2" />
+            <Button Content="hide" Click="Button_Click_3" />
             <Label Name="ticklab" />
             <Slider x:Name="SX" Minimum="-2" Maximum="2" Width="200" ValueChanged="SX_ValueChanged" />
-            <Slider x:Name="SY" Minimum="-2" Maximum="2" Width="200" ValueChanged="SX_ValueChanged"/>
+            <Slider x:Name="SY" Minimum="-2" Maximum="2" Width="200" ValueChanged="SX_ValueChanged" />
+            <Slider x:Name="FPS" Minimum="1" Maximum="200" Width="200" ValueChanged="FPS_ValueChanged" Value="60" />
+            <Label Content="fps:" />
+            <Label Name="tickfps" Content="{Binding Value,ElementName=FPS}" />
         </WrapPanel>
     </Grid>
 </Window>

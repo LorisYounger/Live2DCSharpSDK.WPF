@@ -56,6 +56,7 @@ namespace Live2DCSharpSDK.WPF
                 throw new FileNotFoundException();
             }
             GLControl = new GLWpfControl();
+
             GLControl.SizeChanged += GLControl_Resized;
 
             if (!CubismFramework.IsStarted)
@@ -83,7 +84,18 @@ namespace Live2DCSharpSDK.WPF
             };
             Name = file.Name[..^file.Extension.Length];
             LModel = LAPP.Live2dManager.LoadModel(file.DirectoryName, file.Name[..^file.Extension.Length]);
+
+
+            GLControl.RenderContinuously = false;
+            RenderTimer = new System.Timers.Timer();
+            RenderTimer.Elapsed += (s, e) =>
+            {
+                GLControl.Dispatcher.Invoke(GLControl.InvalidateVisual);
+            };
+            RenderTimer.Interval = 16;
+            RenderTimer.Start();
         }
+        public System.Timers.Timer RenderTimer;
         /// <summary>
         /// 开始播放/渲染
         /// </summary>
@@ -108,11 +120,36 @@ namespace Live2DCSharpSDK.WPF
             IsPlaying = false;
             GLControl.Render -= GLControl_Render;
         }
+        /// <summary>
+        /// 设置渲染间隔 (秒)
+        /// </summary>
+        public float SecondPreFrames
+        {
+            get => secondPreFrames;
+            set { secondPreFrames = value; RenderTimer.Interval = value * 1000; }
+        }
+        private float secondPreFrames = 0.016f;
+        /// <summary>
+        /// 设置每秒渲染帧数
+        /// </summary>
+        public double FramesPerSecond
+        {
+            get => 1 / SecondPreFrames;
+            set => SecondPreFrames = (float)(1 / value);
+        }
+        TimeSpan lastTime = TimeSpan.Zero;
         private void GLControl_Render(TimeSpan obj)
         {
             //GL.ClearColor(Color4.Transparent);
             //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            LAPP.Run((float)obj.TotalSeconds);
+
+            lastTime += obj;
+            if (lastTime.TotalSeconds < SecondPreFrames)
+            {
+                return;
+            }
+            LAPP.Run(secondPreFrames);
+            lastTime = TimeSpan.Zero;
         }
         private void GLControl_Resized(object sender, SizeChangedEventArgs e)
         {

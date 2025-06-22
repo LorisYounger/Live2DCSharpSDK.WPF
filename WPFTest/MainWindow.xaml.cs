@@ -23,7 +23,7 @@ namespace WPFTest
             InitializeComponent();
             l2dwpf = new Live2DWPFModel(@"D:\Documents\Visual Studio 2022\Projects\igc\IGCVPet\Data\pet\seven\seven_base\ColorfulQ.moc3");
             BorderOpenTK.Child = l2dwpf.GLControl;
-            l2dwpf.Start();
+            //l2dwpf.Start();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -58,7 +58,9 @@ namespace WPFTest
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            
+            var idx = l2dwpf.LModel.Model.GetParameterIndex("Param181");
+
+            l2dwpf.LModel.Model.SetParameterValue(idx, 0);
         }
 
         private void Grid_MouseMove(object sender, MouseEventArgs e)
@@ -71,6 +73,17 @@ namespace WPFTest
         private void SX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             //l2dwpf.LModel.SetDragging((float)(SX.Value), (float)(SY.Value));
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FPS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (l2dwpf != null)
+                l2dwpf.FramesPerSecond = (float)FPS.Value;
         }
     }
 }
