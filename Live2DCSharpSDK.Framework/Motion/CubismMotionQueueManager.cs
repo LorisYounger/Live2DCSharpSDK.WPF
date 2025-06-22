@@ -108,10 +108,10 @@ public class CubismMotionQueueManager
     {
         // ------- 処理を行う --------
         // 既にモーションがあれば終了フラグを立てる
-        foreach (var item in Motions)
+        for (int i = 0; i < Motions.Count; i++)
         {
             // ----- 終了済みの処理があれば削除する ------
-            if (!item.Finished)
+            if (!Motions[i].Finished)
             {
                 return false;
             }
@@ -130,8 +130,9 @@ public class CubismMotionQueueManager
     {
         // 既にモーションがあれば終了フラグを立てる
 
-        foreach (var item in Motions)
+        for (int i = 0; i < Motions.Count; i++)
         {
+            CubismMotionQueueEntry? item = Motions[i];
             if (item == null)
             {
                 continue;
@@ -168,11 +169,11 @@ public class CubismMotionQueueManager
         //------- 処理を行う --------
         //既にモーションがあれば終了フラグを立てる
 
-        foreach (var item in Motions)
+        for (int i = 0; i < Motions.Count; i++)
         {
-            if (item == motionQueueEntryNumber)
+            if (Motions[i] == motionQueueEntryNumber)
             {
-                return item;
+                return Motions[i];
             }
         }
 
@@ -206,8 +207,9 @@ public class CubismMotionQueueManager
 
         _remove.Clear();
 
-        foreach (var item in Motions)
+        for (int i1 = 0; i1 < Motions.Count; i1++)
         {
+            CubismMotionQueueEntry? item = Motions[i1];
             var motion = item.Motion;
 
             // ------ 値を反映する ------

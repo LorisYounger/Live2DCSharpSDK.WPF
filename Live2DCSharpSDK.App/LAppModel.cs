@@ -274,7 +274,7 @@ public class LAppModel : CubismUserModel
         _motions.Clear();
         _expressions.Clear();
 
-        if (_modelSetting.FileReferences?.Motions.Count > 0)
+        if (_modelSetting.FileReferences?.Motions?.Count > 0)
         {
             foreach (var item in _modelSetting.FileReferences.Motions)
             {

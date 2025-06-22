@@ -80,8 +80,9 @@ public class CubismExpressionMotionManager : CubismMotionQueueManager
         // ------- 処理を行う --------
         // 既にモーションがあれば終了フラグを立てる
         var list = new List<CubismMotionQueueEntry>();
-        foreach (var item in motions)
+        for (int i1 = 0; i1 < motions.Count; i1++)
         {
+            CubismMotionQueueEntry? item = motions[i1];
             if (item.Motion is not CubismExpressionMotion expressionMotion)
             {
                 list.Add(item);
